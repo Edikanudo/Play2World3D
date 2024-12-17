@@ -1,0 +1,175 @@
+// Game variables
+let inGameCurrency: number = 0;
+let adDisplayed: boolean = false;
+let adsEnabled: boolean = true;
+let highScores: { username: string; score: number }[] = [];
+let returningUsers: number = 800;
+let newUsers: number = 500;
+let RegUsers: number = 2100;
+let worldScore: number = 10000;
+let gameLoopRunning: boolean = true;
+
+// Function to display ads
+function displayAds(): void {
+  if (adsEnabled && !adDisplayed) {
+    console.log("Displaying ad...");
+    adDisplayed = true;
+  }
+}
+
+// Function to toggle ads
+function toggleAds(): void {
+  adsEnabled = !adsEnabled;
+  console.log(Ads enabled: ${adsEnabled});
+  const adButton: HTMLButtonElement = document.getElementById(
+    "ad-button"
+  ) as HTMLButtonElement;
+  adButton.textContent = adsEnabled ? "Disable Ads" : "Enable Ads";
+  if (!adsEnabled) {
+    gameLoopRunning = false;
+  } else {
+    gameLoopRunning = true;
+  }
+}
+
+// Function to earn in-game currency
+function earnCurrency(amount: number): void {
+  inGameCurrency += amount;
+  console.log(Earning currency: ${amount}. Total: ${inGameCurrency});
+  const inGameCurrencySpan: HTMLSpanElement = document.getElementById(
+    "in-game-currency"
+  ) as HTMLSpanElement;
+  inGameCurrencySpan.textContent = $${inGameCurrency};
+}
+
+// Function to generate a random username
+function generateUsername(): string {
+  return Player ${Math.floor(Math.random() * 1000)};
+}
+
+// Function to update high scores
+function updateHighScores(score: number): void {
+  highScores.push({ username: generateUsername(), score: score });
+  highScores.sort((a, b) => b.score - a.score);
+  highScores = highScores.slice(0, 5); // Keep only the top 5 scores
+  console.log("Updated high scores:", highScores);
+  const highScoresList: HTMLUListElement = document.getElementById(
+    "high-scores-list"
+  ) as HTMLUListElement;
+  highScoresList.innerHTML = "";
+  highScores.forEach((highScore, index) => {
+    const highScoreRow: HTMLTableRowElement = document.createElement(
+      "tr"
+    );
+    const highScoreRank: HTMLTableCellElement = document.createElement(
+      "td"
+    );
+    highScoreRank.textContent = ${index + 1};
+    highScoreRow.appendChild(highScoreRank);
+    const highScoreAvatarCell: HTMLTableCellElement = document.createElement(
+      "td"
+    );
+    const highScoreAvatar: HTMLDivElement = document.createElement(
+      "div"
+    );
+    highScoreAvatar.classList.add("high-score-avatar");
+    highScoreAvatarCell.appendChild(highScoreAvatar);
+    highScoreRow.appendChild(highScoreAvatarCell);
+    const highScoreUsername: HTMLTableCellElement = document.createElement(
+      "td"
+    );
+    highScoreUsername.textContent = highScore.username;
+    highScoreRow.appendChild(highScoreUsername);
+    const highScoreScore: HTMLTableCellElement = document.createElement(
+      "td"
+    );
+    highScoreScore.textContent = highScore.score;
+    highScoreRow.appendChild(highScoreScore);
+    highScoresList.appendChild(highScoreRow);
+  });
+}
+
+// Function to increment returning users
+function incrementReturningUsers(): void {
+  returningUsers += Math.floor(Math.random() * 100);
+  console.log(Returning users: ${returningUsers});
+  const returningUsersSpan: HTMLSpanElement = document.getElementById(
+    "returning-users"
+  ) as HTMLSpanElement;
+  returningUsersSpan.textContent = returningUsers;
+}
+
+// Function to increment new users
+function incrementNewUsers(): void {
+  newUsers += Math.floor(Math.random() * 50);
+  console.log(New users: ${newUsers});
+  const newUsersSpan: HTMLSpanElement = document.getElementById(
+    "new-users"
+  ) as HTMLSpanElement;
+  newUsersSpan.textContent = newUsers;
+}
+
+// Function to increment Register users
+function incrementRegUsers(): void {
+  RegUsers += Math.floor(Math.random() * 50);
+  console.log(Registered users: ${RegUsers});
+  const RegUsersSpan: HTMLSpanElement = document.getElementById(
+    "total-users"
+  ) as HTMLSpanElement;
+  RegUsersSpan.textContent = RegUsers;
+}
+
+// Function to update world score
+function updateWorldScore(score: number): void {
+  worldScore += score;
+  console.log(World score: ${worldScore});
+  const worldScoreSpan: HTMLSpanElement = document.getElementById(
+    "world-score"
+  ) as HTMLSpanElement;
+  worldScoreSpan.textContent = worldScore;
+}
+
+
+// Main game loop
+setInterval(() => {z
+if (gameLoopRunning) {
+// Simulate earning currency
+if (Math.random() < 0.1) {
+earnCurrency(Math.floor(Math.random() * 1000));
+}
+// Simulate high scores
+if (Math.random() < 0.1) {
+updateHighScores(Math.floor(Math.random() * 10000));
+}
+// Simulate returning users
+if (Math.random() < 0.1) {
+incrementReturningUsers();
+}
+// Simulate new users
+if (Math.random() < 0.1) {
+incrementNewUsers();
+}
+// Simulate Registerd users
+if (Math.random() < 0.1) {
+incrementRegUsers();
+}
+// Simulate world score
+if (Math.random() < 0.1) {
+updateWorldScore(Math.floor(Math.random() * 1000));
+}
+}
+}, 100);
+
+// Handle ad button click
+const adButton: HTMLButtonElement = document.getElementById(
+"ad-button"
+) as HTMLButtonElement;
+adButton.addEventListener("click", toggleAds);
+
+// Initialize game state
+earnCurrency(1000);
+updateHighScores(5000);
+incrementReturningUsers();
+incrementNewUsers();
+incrementRegUsers();
+updateWorldScore(500);
